@@ -1,0 +1,18 @@
+[Unit]
+Description=aiogram2_bot_sample
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/aiogram2_bot_sample/
+ExecStart=/home/aiogram2_bot_sample/env/bin/python3 -m bot_app
+RestartSec=10
+Restart=always
+
+StandardOutput=append:/home/aiogram2_bot_sample/log_output.log
+StandardError=append:/home/aiogram2_bot_sample/log_error.log
+
+[Install]
+WantedBy=multi-user.target
