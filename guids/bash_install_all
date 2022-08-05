@@ -1,0 +1,8 @@
+#!/bin/bash
+apt-get update
+apt-get install -y mysql-server
+apt-get install -y redis-server
+apt-get install -y nginx
+mysql_secure_installation
+sudo mkdir /etc/nginx/ssl
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
