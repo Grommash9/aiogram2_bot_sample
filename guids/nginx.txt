@@ -28,12 +28,12 @@ server {
 }
 
 
-nano /etc/nginx/bots/aiogram2_bot_sample.conf
+nano /etc/nginx/bots/chat_rank_and_reputation.conf
 
 
-aiogram2_bot_sample
+chat_rank_and_reputation
 
-location /aiogram2_bot_sample/ {
+location /chat_rank_and_reputation/ {
             proxy_pass         http://127.0.0.1:2000;
             proxy_redirect     off;
             proxy_set_header   Host $host;
@@ -42,7 +42,7 @@ location /aiogram2_bot_sample/ {
             proxy_set_header   X-Forwarded-Host $server_name;
 }
 
-location /aiogram2_bot_api/ {
+location /chat_rank_and_reputation_bot_api/ {
             proxy_pass         http://127.0.0.1:2000;
             proxy_redirect     off;
             proxy_set_header   Host $host;
