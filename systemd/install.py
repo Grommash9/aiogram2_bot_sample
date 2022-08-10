@@ -23,16 +23,8 @@ def get_service_files() -> List[File]:
     return sys.exit(1)
 
 
-def subprocess_result_parser(result: subprocess.CompletedProcess) -> str:
-    if result.returncode == 0:
-        return result.stdout.decode()
-    else:
-        return result.stderr.decode()
-
-
 for file in get_service_files():
     try:
-
         os.replace(file.abs_path, os.path.join(systemctl_files_path, file.file_name))
         print(f"{file.file_name} replacing success")
     except Exception as e:
@@ -44,5 +36,3 @@ for file in get_service_files():
         run_service_result = subprocess.run(['systemctl', commands, file.file_name], capture_output=True)
         print(run_service_result.stdout.decode() + run_service_result.stderr.decode())
     print(f"{file.file_name} install done")
-
-
