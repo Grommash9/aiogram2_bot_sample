@@ -1,5 +1,4 @@
 import os.path
-import sys
 import os
 import subprocess
 import sys
@@ -11,6 +10,7 @@ parent_path = dirname(dirname(abspath(__file__)))
 repository_name = os.path.basename(dirname(dirname(abspath(__file__))))
 
 if not os.path.exists(os.path.join(parent_path, 'env')):
+    print('create venv at first!')
     raise sys.exit(1)
 
 for package in os.listdir(parent_path):
@@ -42,8 +42,6 @@ for package in os.listdir(parent_path):
         print(f'{file_name}.service has been created!')
 
 
-
-
 systemctl_files_path = '/etc/systemd/system'
 
 
@@ -57,7 +55,8 @@ class File:
 
 
 def get_service_files() -> List[File]:
-    service_files_list = [File(os.path.join(os.getcwd(), files), files) for files in os.listdir(os.getcwd()) if files.endswith('.service')]
+    service_files_list = [File(os.path.join(os.getcwd(), files), files) for files in os.listdir(os.getcwd()) if
+                          files.endswith('.service')]
     if len(service_files_list) > 0:
         return service_files_list
     print('There is no any service file in this folder, maybe you are already add it?')
