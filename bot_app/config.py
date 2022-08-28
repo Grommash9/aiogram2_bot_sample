@@ -30,7 +30,7 @@ REDIS = {
     'db': 2,
     'prefix': cwd.name
 }
-
+# sad
 MYSQL = {
     'host': os.getenv('MYSQL_HOST'),
     'user': os.getenv('MYSQL_USER'),

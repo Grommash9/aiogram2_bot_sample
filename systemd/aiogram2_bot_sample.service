@@ -9,7 +9,7 @@ User=root
 WorkingDirectory=/home/aiogram2_bot_sample/
 ExecStart=/home/aiogram2_bot_sample/env/bin/python3 -m bot_app
 RestartSec=10
-Restart=always
+Restart=on-failure
 
 StandardOutput=append:/home/aiogram2_bot_sample/log_output.log
 StandardError=append:/home/aiogram2_bot_sample/log_error.log
