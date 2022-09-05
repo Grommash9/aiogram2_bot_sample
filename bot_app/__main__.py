@@ -5,8 +5,7 @@ from aiogram.dispatcher.webhook import get_new_configured_app
 from aiohttp import web
 
 from bot_app import config
-from bot_app.misc import dp, bot, routes
-
+from bot_app.misc import dp, bot, routes, scheduler
 
 
 async def on_startup(_dispatcher):
@@ -48,6 +47,7 @@ def setup_bot(app: web.Application):
 
 
 if __name__ == '__main__':
+    scheduler.start()
     if int(config.POLLING):
         executor.start_polling(dp, skip_updates=True)
     else:

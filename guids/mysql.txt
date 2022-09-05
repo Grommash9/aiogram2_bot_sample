@@ -15,3 +15,6 @@ FLUSH PRIVILEGES;
 
 
 sudo mysql_secure_installation
+
+
+mysqldump -u root -p sample_poster_bot > sample_poster_bot_dump.sql
