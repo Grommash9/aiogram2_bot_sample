@@ -10,7 +10,7 @@ GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT on *.* TO 'rootremote'
 FLUSH PRIVILEGES;
 
 
-/etc/mysql/mysql.conf.d/mysqld.cnf
+nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
 
 

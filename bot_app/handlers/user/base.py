@@ -10,7 +10,7 @@ from bot_app.states.user import User
 
 @dp.message_handler(commands='start', state='*')
 async def process_start(message: Message, state: FSMContext):
-    user_data = await db.user.create_user(message.from_user, message.get_args())
+    user_data = await db.users.create_user(message.from_user, message.get_args())
     await state.finish()
     await bot.send_message(message.from_user.id,
                            'basic hello message',
