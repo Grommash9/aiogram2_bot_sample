@@ -31,13 +31,13 @@ server {
 }
 
 
-nano /etc/nginx/bots/chat_rank_and_reputation.conf
+nano /etc/nginx/bots/onlifans-content-bot.conf
 
 
 chat_rank_and_reputation
 
-location /tg_support_crm/ {
-            proxy_pass         http://127.0.0.1:2000;
+location /user_bot {
+            proxy_pass         http://127.0.0.1:2002;
             proxy_redirect     off;
             proxy_set_header   Host $host;
             proxy_set_header   X-Real-IP $remote_addr;
@@ -45,7 +45,7 @@ location /tg_support_crm/ {
             proxy_set_header   X-Forwarded-Host $server_name;
 }
 
-location /tg_support_crm_api/ {
+location /onlifans_content_api/ {
             proxy_pass         http://127.0.0.1:2000;
             proxy_redirect     off;
             proxy_set_header   Host $host;

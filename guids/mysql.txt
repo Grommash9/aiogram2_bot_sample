@@ -4,17 +4,15 @@ sudo ufw allow from 176.98.89.209 to any port 3306
 
 sudo ufw allow 3306
 
-CREATE USER 'rootremote'@'%' IDENTIFIED WITH mysql_native_password BY 'G@REf233sdf#W';
+CREATE USER 'rootremote'@'%' IDENTIFIED WITH mysql_native_password BY 'GW#$ETfdsfWSF';
 
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT on *.* TO 'rootremote'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
-
-
 
 sudo mysql_secure_installation
 
-
 mysqldump -u root -p sample_poster_bot > sample_poster_bot_dump.sql
+
+mysql -u root -p onlifans_content_db < dump.sql

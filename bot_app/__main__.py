@@ -1,9 +1,9 @@
 import json
-
+import logging
 from aiogram import executor
 from aiogram.dispatcher.webhook import get_new_configured_app
 from aiohttp import web
-
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from bot_app import config
 from bot_app.misc import dp, bot, routes, scheduler
 
@@ -48,6 +48,8 @@ def setup_bot(app: web.Application):
 
 if __name__ == '__main__':
     scheduler.start()
+    logging.basicConfig(level=logging.INFO)
+    dp.middleware.setup(LoggingMiddleware())
     if int(config.POLLING):
         executor.start_polling(dp, skip_updates=True)
     else:
