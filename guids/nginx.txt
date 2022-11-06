@@ -31,7 +31,7 @@ server {
 }
 
 
-nano /etc/nginx/bots/joblio_chat_bot.conf
+nano /etc/nginx/bots/lavka_3_clients_bot.conf
 
 
 chat_rank_and_reputation
@@ -68,6 +68,7 @@ events {
 
 http {
   sendfile on;
+  client_max_body_size 64M;
   tcp_nopush on;
   tcp_nodelay on;
   keepalive_timeout 65;

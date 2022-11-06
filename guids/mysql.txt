@@ -8,7 +8,7 @@ sudo ufw allow 3306
 
 CREATE USER 'rootremote'@'%' IDENTIFIED WITH mysql_native_password BY 'GW#$ETfdsfWSF';
 
-GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT on *.* TO 'rootremote2'@'%' WITH GRANT OPTION;
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT on *.* TO 'rootremote'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
