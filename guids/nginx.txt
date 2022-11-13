@@ -31,12 +31,12 @@ server {
 }
 
 
-nano /etc/nginx/bots/lavka_3_clients_bot.conf
+nano /etc/nginx/bots/lavka_parser.conf
 
 
 chat_rank_and_reputation
 
-location /joblio_chat_bot {
+location /lavka_parser {
             proxy_pass         http://127.0.0.1:2005;
             proxy_redirect     off;
             proxy_set_header   Host $host;
@@ -45,7 +45,7 @@ location /joblio_chat_bot {
             proxy_set_header   X-Forwarded-Host $server_name;
 }
 
-location /joblio_chat_bot_api/ {
+location /lavka_3_clients_bot_api/ {
             proxy_pass         http://127.0.0.1:2005;
             proxy_redirect     off;
             proxy_set_header   Host $host;

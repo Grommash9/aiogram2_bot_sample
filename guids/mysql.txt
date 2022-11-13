@@ -15,7 +15,7 @@ nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
 sudo mysql_secure_installation
 
-mysqldump -u root -p sample_poster_bot > sample_poster_bot_dump.sql
+mysqldump -u root -p twitter_check_tg_db > dump.sql
 
 mysql -u root -p onlifans_content_db < dump.sql
 
