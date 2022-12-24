@@ -6,7 +6,7 @@ sudo ufw allow from 176.98.89.209 to any port 3306
 
 sudo ufw allow 3306
 
-CREATE USER 'rootremote'@'%' IDENTIFIED WITH mysql_native_password BY 'GW#$ETfdsfWSF';
+CREATE USER 'rootremote'@'%' IDENTIFIED WITH mysql_native_password BY 'FsEW23f3!@)^*$210652@!$wF#@FSD2';
 
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT on *.* TO 'rootremote'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
