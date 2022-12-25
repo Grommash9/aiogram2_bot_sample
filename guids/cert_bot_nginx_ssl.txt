@@ -1,0 +1,27 @@
+sudo ufw allow 22
+sudo ufw allow 'Nginx Full'
+sudo ufw delete allow 'Nginx HTTP'
+sudo ufw enable
+sudo certbot --nginx -d test-domian-first.telegram-crm.work
+
+
+mkdir /etc/nginx/first_domain
+mkdir /etc/nginx/second_domain
+
+nano /etc/nginx/sites-available/default
+
+include /etc/nginx/first_domain/*.conf;
+include /etc/nginx/second_domain/*.conf;
+
+
+nano /etc/nginx/first_domain/admin_panel.conf
+
+
+location /admin {
+    include proxy_params;
+    proxy_pass http://unix:/var/log/gunicorn/admin_panel.sock;
+}
+
+location /static {
+        root /var/www;
+}
