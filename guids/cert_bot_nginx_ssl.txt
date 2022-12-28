@@ -1,3 +1,5 @@
+sudo apt install certbot python3-certbot-nginx
+
 sudo ufw allow 22
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
