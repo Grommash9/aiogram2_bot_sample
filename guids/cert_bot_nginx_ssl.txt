@@ -4,25 +4,49 @@ sudo ufw allow 22
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
-sudo certbot --nginx -d test-domian-first.telegram-crm.work
-sudo certbot --nginx -d test-domian-second.telegram-crm.work
+sudo certbot --nginx -d payouts-api.telegram-crm.work
+sudo certbot --nginx -d api.web-karovanets.telegram-crm.work
+sudo certbot --nginx -d pm-callback.telegram-crm.work
 
-
-mkdir /etc/nginx/first_domain
-mkdir /etc/nginx/second_domain
+mkdir /etc/nginx/payouts-api
+mkdir /etc/nginx/karovanets_web
+mkdir /etc/nginx/application-status-changer
 
 nano /etc/nginx/sites-available/default
 
-include /etc/nginx/first_domain/*.conf;
-include /etc/nginx/second_domain/*.conf;
+
+include /etc/nginx/payouts-api/*.conf;
+include /etc/nginx/karovanets_api/*.conf;
 
 
-nano /etc/nginx/first_domain/admin_panel.conf
+gunicorn --bind 0.0.0.0:8000 admin_panel.wsgi
+
+
+nano /etc/nginx/payouts-api/api.conf
+mkdir /var/log/gunicorn
+sudo nano /etc/systemd/system/application-status-changer_gunicorn.service
+
+
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/exchanges_requests_controller/admin_panel
+ExecStart=/home/exchanges_requests_controller/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/exchanges_requests_controller.sock admin_panel.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+nano /etc/nginx/application-status-changer/admin_panel.conf
 
 
 location /admin {
     include proxy_params;
-    proxy_pass http://unix:/var/log/gunicorn/admin_panel.sock;
+    proxy_pass http://unix:/var/log/gunicorn/exchanges_requests_controller.sock;
 }
 
 location /static {

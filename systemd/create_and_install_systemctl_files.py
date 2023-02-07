@@ -64,6 +64,9 @@ def get_service_files() -> List[File]:
 
 
 for file in get_service_files():
+    if os.path.exists(os.path.join(systemctl_files_path, file.file_name)):
+        print(f"{os.path.join(systemctl_files_path, file.file_name)} already exists and will be skipped for now")
+        continue
     try:
         os.replace(file.abs_path, os.path.join(systemctl_files_path, file.file_name))
         print(f"{file.file_name} replacing success")
