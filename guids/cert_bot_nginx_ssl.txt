@@ -4,27 +4,33 @@ sudo ufw allow 22
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
-sudo certbot --nginx -d payouts-api.telegram-crm.work
-sudo certbot --nginx -d api.web-karovanets.telegram-crm.work
-sudo certbot --nginx -d pm-callback.telegram-crm.work
+sudo certbot --nginx -d jet-bot.cakealliance.io
+sudo certbot --nginx -d admin-wallets-balance.telegram-crm.work
+sudo certbot --nginx -d test-payouts-api.telegram-crm.work
 
-mkdir /etc/nginx/payouts-api
-mkdir /etc/nginx/karovanets_web
-mkdir /etc/nginx/application-status-changer
+
+jet-bot.cakealliance.io
+support-bot.cakealliance.io
+admin-bot.cakealliance.io
+client-bot.cakealliance.io
+wb-callback.cakealliance.io
+
+mkdir /etc/nginx/api_service
+mkdir /etc/nginx/web_site
 
 nano /etc/nginx/sites-available/default
 
 
-include /etc/nginx/payouts-api/*.conf;
-include /etc/nginx/karovanets_api/*.conf;
+include /etc/nginx/jet-bot/*.conf;
+include /etc/nginx/admin-wallets-balance/*.conf;
 
 
 gunicorn --bind 0.0.0.0:8000 admin_panel.wsgi
 
 
-nano /etc/nginx/payouts-api/api.conf
+nano /etc/nginx/jet-bot/bot.conf
 mkdir /var/log/gunicorn
-sudo nano /etc/systemd/system/application-status-changer_gunicorn.service
+sudo nano /etc/systemd/system/web_site_gunicorn.service
 
 
 
@@ -35,18 +41,18 @@ After=network.target
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=/home/exchanges_requests_controller/admin_panel
-ExecStart=/home/exchanges_requests_controller/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/exchanges_requests_controller.sock admin_panel.wsgi:application
+WorkingDirectory=/home/oleksandr/web_karovanets/admin_panel
+ExecStart=/home/oleksandr/web_karovanets/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/web_site.sock admin_panel.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
 
-nano /etc/nginx/application-status-changer/admin_panel.conf
+nano /etc/nginx/web_site/api_service.conf
 
 
-location /admin {
+location / {
     include proxy_params;
-    proxy_pass http://unix:/var/log/gunicorn/exchanges_requests_controller.sock;
+    proxy_pass http://unix:/var/log/gunicorn/web_site.sock;
 }
 
 location /static {
