@@ -1,19 +1,15 @@
 
 
 jet-bot.cakealliance.io
-support-bot.cakealliance.io
-admin-bot.cakealliance.io
-client-bot.cakealliance.io
-wb-callback.cakealliance.io
-pm-callback.cakealliance.io
+exchange-application-to-tg-chat.cakealliance.io
+admin-exchange-application-to-tg-chat.cakealliance.io
 
-mkdir /etc/nginx/jet-bot
-nano /etc/nginx/pm-callback/api.conf
-mkdir /etc/nginx/support-bot
-mkdir /etc/nginx/admin-bot
-mkdir /etc/nginx/client-bot
-mkdir /etc/nginx/wb-callback
-mkdir /etc/nginx/pm-callback
+
+mkdir /etc/nginx/exchange-application-to-tg-chat
+mkdir /etc/nginx/admin-exchange-application-to-tg-chat
+mkdir /etc/nginx/payouts-admin
+nano /etc/nginx/admin-exchange-application-to-tg-chat/web.conf
+
 
 nano /etc/nginx/sites-available/default
 
@@ -26,49 +22,14 @@ server {
         listen [::]:80;
         root /var/www/;
         index index.html index.htm index.nginx-debian.html;
-        server_name jet-bot.cakealliance.io;
-        include /etc/nginx/jet-bot/*.conf;
+        server_name exchange-application-to-tg-chat.cakealliance.io;
+        include /etc/nginx/exchange-application-to-tg-chat/*.conf;
 }
 server {
         listen 80;
         listen [::]:80;
         root /var/www/;
         index index.html index.htm index.nginx-debian.html;
-        server_name support-bot.cakealliance.io;
-        include /etc/nginx/support-bot/*.conf;
-}
-
-server {
-        listen 80;
-        listen [::]:80;
-        root /var/www/;
-        index index.html index.htm index.nginx-debian.html;
-        server_name admin-bot.cakealliance.io;
-        include /etc/nginx/admin-bot/*.conf;
-}
-
-server {
-        listen 80;
-        listen [::]:80;
-        root /var/www/;
-        index index.html index.htm index.nginx-debian.html;
-        server_name client-bot.cakealliance.io;
-        include /etc/nginx/client-bot/*.conf;
-}
-
-server {
-        listen 80;
-        listen [::]:80;
-        root /var/www/;
-        index index.html index.htm index.nginx-debian.html;
-        server_name wb-callback.cakealliance.io;
-        include /etc/nginx/wb-callback/*.conf;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        root /var/www/;
-        index index.html index.htm index.nginx-debian.html;
-        server_name pm-callback.cakealliance.io;
-        include /etc/nginx/pm-callback/*.conf;
+        server_name admin-exchange-application-to-tg-chat.cakealliance.io;
+        include /etc/nginx/admin-exchange-application-to-tg-chat/*.conf;
 }

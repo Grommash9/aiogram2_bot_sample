@@ -10,8 +10,31 @@ parent_path = dirname(dirname(abspath(__file__)))
 repository_name = os.path.basename(dirname(dirname(abspath(__file__))))
 
 if not os.path.exists(os.path.join(parent_path, 'env')):
-    print('create venv at first!')
-    raise sys.exit(1)
+    subprocess.run(['sudo apt-get install python3.10-dev default-libmysqlclient-dev build-essential'], capture_output=True, shell=True)
+    print('venv creating started')
+    venv_creation_result = subprocess.run(['python3', '-m', 'venv', 'env'], capture_output=True, cwd='..')
+    print(venv_creation_result.stdout.decode() + venv_creation_result.stderr.decode())
+    print('=' * 70)
+    print('pip installation')
+    venv_activate_path = '../env/bin/python'
+    requirements_path = '../requirements.txt'
+    result = subprocess.run([venv_activate_path, '-m', 'pip', 'install', '-r', requirements_path], capture_output=True)
+    print(result.stdout.decode() + result.stderr.decode())
+    print('=' * 70)
+
+
+if not os.path.exists(os.path.join(parent_path, '.env')):
+    print('cant find .env file! creating it from .env.sample!')
+    if not os.path.exists(os.path.join(parent_path, '.env.sample')):
+        print('.env.sample file does not exists!')
+        sys.exit(-1)
+    with open(os.path.join(parent_path, '.env'), 'w') as new_env_file:
+        new_env_file.write(open(os.path.join(parent_path, '.env.sample'), 'r').read())
+    if os.path.exists(os.path.join(parent_path, '.env')):
+        print('.env file created!')
+    else:
+        print('cant create .env file!')
+        sys.exit(-1)
 
 for package in os.listdir(parent_path):
     if os.path.isdir(os.path.join(parent_path, package)) \

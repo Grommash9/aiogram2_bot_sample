@@ -4,8 +4,8 @@ sudo ufw allow 22
 sudo ufw allow 'Nginx Full'
 sudo ufw delete allow 'Nginx HTTP'
 sudo ufw enable
-sudo certbot --nginx -d jet-bot.cakealliance.io
-sudo certbot --nginx -d admin-wallets-balance.telegram-crm.work
+sudo certbot --nginx -d api-whitebit-trader.telegram-crm.work
+sudo certbot --nginx -d admin-api-pay-bot.telegram-crm.work
 sudo certbot --nginx -d test-payouts-api.telegram-crm.work
 
 
@@ -15,22 +15,22 @@ admin-bot.cakealliance.io
 client-bot.cakealliance.io
 wb-callback.cakealliance.io
 
-mkdir /etc/nginx/api_service
-mkdir /etc/nginx/web_site
+mkdir /etc/nginx/api-whitebit-trader
+mkdir /etc/nginx/admin-api-pay-bot
 
 nano /etc/nginx/sites-available/default
 
 
-include /etc/nginx/jet-bot/*.conf;
-include /etc/nginx/admin-wallets-balance/*.conf;
+include /etc/nginx/api-whitebit-trader/*.conf;
+include /etc/nginx/api-pay-bot/*.conf;
 
 
 gunicorn --bind 0.0.0.0:8000 admin_panel.wsgi
 
 
-nano /etc/nginx/jet-bot/bot.conf
+nano /etc/nginx/rate-change-bot/bot.conf
 mkdir /var/log/gunicorn
-sudo nano /etc/systemd/system/web_site_gunicorn.service
+sudo nano /etc/systemd/system/whitebit_trader_admin_gunicorn.service
 
 
 
@@ -41,18 +41,18 @@ After=network.target
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=/home/oleksandr/web_karovanets/admin_panel
-ExecStart=/home/oleksandr/web_karovanets/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/web_site.sock admin_panel.wsgi:application
+WorkingDirectory=/home/bot-whitebit-deposit-coins-seller/admin_panel
+ExecStart=/home/bot-whitebit-deposit-coins-seller/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/whitebit_admin.sock admin_panel.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
 
-nano /etc/nginx/web_site/api_service.conf
+nano /etc/nginx/api-whitebit-trader/api.conf
 
 
 location / {
     include proxy_params;
-    proxy_pass http://unix:/var/log/gunicorn/web_site.sock;
+    proxy_pass http://unix:/var/log/gunicorn/whitebit_admin.sock;
 }
 
 location /static {

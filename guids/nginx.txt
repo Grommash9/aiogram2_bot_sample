@@ -37,7 +37,7 @@ nano /etc/nginx/bots/lavka_parser.conf
 chat_rank_and_reputation
 
 location / {
-            proxy_pass         http://127.0.0.1:2023;
+            proxy_pass         http://127.0.0.1:2123;
             proxy_redirect     off;
             proxy_set_header   Host $host;
             proxy_set_header   X-Real-IP $remote_addr;

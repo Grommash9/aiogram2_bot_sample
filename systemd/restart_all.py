@@ -1,8 +1,5 @@
-import os.path
 import os
 import subprocess
-import sys
-from typing import List
 from os.path import dirname, abspath
 
 parent_path = dirname(dirname(abspath(__file__)))
