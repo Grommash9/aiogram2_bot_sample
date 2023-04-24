@@ -1,0 +1,116 @@
+mkdir /etc/nginx/api_service
+mkdir /etc/nginx/web_site
+
+
+nano /etc/nginx/api_service/api_service.conf
+
+location / {
+            proxy_pass         http://127.0.0.1:1996;
+            proxy_redirect     off;
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+}
+
+nano /etc/nginx/web_site/admin_panel.conf
+location / {
+    include proxy_params;
+    proxy_pass http://unix:/var/log/gunicorn/web_site.sock;
+}
+
+location /static {
+        root /var/www;
+}
+
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/web_karovanets/admin_panel
+ExecStart=/home/web_karovanets/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/web_site.sock admin_panel.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+server {
+
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name kz-api.karbovanecbot.io;
+
+        include /etc/nginx/api_service/*.conf;
+}
+
+
+server {
+
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name kz.karbovanecbot.io;
+
+        include /etc/nginx/web_site/*.conf;
+}
+
+
+https://kz-pm-callback.cakealliance.io
+
+
+nano /etc/nginx/admin-bot/bot.conf
+
+
+location / {
+            proxy_pass         http://127.0.0.1:2002;
+            proxy_redirect     off;
+            proxy_set_header   Host $host;
+            proxy_set_header   X-Real-IP $remote_addr;
+            proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Host $server_name;
+}
+
+        include /etc/nginx//*.conf;
+}
+        include /etc/nginx//*.conf;
+}
+        include /etc/nginx/admin-bot/*.conf;
+}
+        include /etc/nginx/client-bot/*.conf;
+}
+        include /etc/nginx/wb-callback/*.conf;
+}
+        include /etc/nginx/pm-callback/*.conf;
+}
+        include /etc/nginx/change-coin-callback/*.conf;
+}
+        mkdir /etc/nginx/application-manager-callback
+}
+        include /etc/nginx/application-manager-callback/*.conf;
+}
+
+ALLOWED_IPS = ["127.0.0.1", "3.74.89.123", "18.184.64.188", "3.78.6.127", "18.193.230.37"]
+
+
+
+kz-admin-bot
+kz-application-manager-callback18.193.230.37
+kz-bet-pay-callback
+kz-change-coin-callback
+kz-client-bot
+kz-jet-bot
+kz-pm-callback
+kz-support-bot
+kz-wp -callback

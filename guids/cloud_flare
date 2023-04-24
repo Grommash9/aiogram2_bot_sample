@@ -1,12 +1,9 @@
 
+bet-pay-callback.cakealliance.io
+application-manager-callback.cakealliance.io
 
-jet-bot.cakealliance.io
-exchange-application-to-tg-chat.cakealliance.io
-admin-exchange-application-to-tg-chat.cakealliance.io
-
-
-mkdir /etc/nginx/exchange-application-to-tg-chat
-mkdir /etc/nginx/admin-exchange-application-to-tg-chat
+mkdir /etc/nginx/bet-pay-callback
+mkdir /etc/nginx/application-manager-callback
 mkdir /etc/nginx/payouts-admin
 nano /etc/nginx/admin-exchange-application-to-tg-chat/web.conf
 
@@ -22,14 +19,14 @@ server {
         listen [::]:80;
         root /var/www/;
         index index.html index.htm index.nginx-debian.html;
-        server_name exchange-application-to-tg-chat.cakealliance.io;
-        include /etc/nginx/exchange-application-to-tg-chat/*.conf;
+        server_name bet-pay-callback.cakealliance.io;
+        include /etc/nginx/bet-pay-callback/*.conf;
 }
 server {
         listen 80;
         listen [::]:80;
         root /var/www/;
         index index.html index.htm index.nginx-debian.html;
-        server_name admin-exchange-application-to-tg-chat.cakealliance.io;
-        include /etc/nginx/admin-exchange-application-to-tg-chat/*.conf;
+        server_name application-manager-callback.cakealliance.io;
+        include /etc/nginx/application-manager-callback/*.conf;
 }

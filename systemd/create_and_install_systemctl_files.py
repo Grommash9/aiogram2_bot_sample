@@ -41,6 +41,8 @@ for package in os.listdir(parent_path):
             and os.path.exists(os.path.join(parent_path, package, '__main__.py')):
         if package == 'bot_app':
             file_name = repository_name
+        elif package == 'api_application':
+            file_name = f"{repository_name}_api"
         else:
             file_name = package
         with open(f'{file_name}.service', 'w') as new_service_file:
