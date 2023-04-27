@@ -5,17 +5,31 @@ import sys
 from typing import List
 from os.path import dirname, abspath
 
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 parent_path = dirname(dirname(abspath(__file__)))
 
 repository_name = os.path.basename(dirname(dirname(abspath(__file__))))
 
 if not os.path.exists(os.path.join(parent_path, 'env')):
     subprocess.run(['sudo apt-get install python3.10-dev default-libmysqlclient-dev build-essential'], capture_output=True, shell=True)
-    print('venv creating started')
+    print(f"{bcolors.OKGREEN} venv creating started {bcolors.ENDC}")
     venv_creation_result = subprocess.run(['python3', '-m', 'venv', 'env'], capture_output=True, cwd='..')
     print(venv_creation_result.stdout.decode() + venv_creation_result.stderr.decode())
     print('=' * 70)
     print('pip installation')
+    print(f"{bcolors.OKGREEN} pip installation {bcolors.ENDC}")
     venv_activate_path = '../env/bin/python'
     requirements_path = '../requirements.txt'
     result = subprocess.run([venv_activate_path, '-m', 'pip', 'install', '-r', requirements_path], capture_output=True)
@@ -31,7 +45,7 @@ if not os.path.exists(os.path.join(parent_path, '.env')):
     with open(os.path.join(parent_path, '.env'), 'w') as new_env_file:
         new_env_file.write(open(os.path.join(parent_path, '.env.sample'), 'r').read())
     if os.path.exists(os.path.join(parent_path, '.env')):
-        print('.env file created!')
+        print(f"{bcolors.OKGREEN} .env file created! {bcolors.ENDC}")
     else:
         print('cant create .env file!')
         sys.exit(-1)
@@ -64,7 +78,44 @@ for package in os.listdir(parent_path):
 
                                    "[Install]\n"
                                    "WantedBy=multi-user.target")
-        print(f'{file_name}.service has been created!')
+
+        print(f"{bcolors.OKGREEN}{file_name}.service has been created! {bcolors.ENDC}")
+
+    if os.path.isfile(os.path.join(parent_path, package)):
+        continue
+    if 'manage.py' not in os.listdir(os.path.join(parent_path, package)):
+        continue
+
+    print(f'Django project founded at {os.path.join(parent_path, package)}')
+
+    sys_reload_result = subprocess.run(['mkdir', '/var/log/gunicorn'], capture_output=True)
+    print(sys_reload_result.stdout.decode() + sys_reload_result.stderr.decode())
+
+    django_site_path = os.path.join(parent_path, package)
+
+    file_name = f'gunicorn_{package}_{repository_name}'
+
+    with open(f'{file_name}.service', 'w') as new_service_file:
+        new_service_file.write(f"""
+        [Unit]
+        Description=gunicorn daemon
+        After=network.target
+
+        [Service]
+        User=root
+        Group=www-data
+        WorkingDirectory={django_site_path}
+        ExecStart={parent_path}env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{file_name}.sock {package}.wsgi:application
+
+        [Install]
+        WantedBy=multi-user.target
+        """)
+    print(f"{bcolors.OKGREEN}{file_name}.service has been created! {bcolors.ENDC}")
+    print("=" * 50)
+    print("=" * 50)
+    print(f"{bcolors.OKGREEN}NAME OF GUNICORN SOCK IS: {file_name}.sock {bcolors.ENDC}")
+    print("=" * 50)
+    print("=" * 50)
 
 
 systemctl_files_path = '/etc/systemd/system'
@@ -103,4 +154,4 @@ for file in get_service_files():
     for commands in ['enable', 'start', 'status']:
         run_service_result = subprocess.run(['systemctl', commands, file.file_name], capture_output=True)
         print(run_service_result.stdout.decode() + run_service_result.stderr.decode())
-    print(f"{file.file_name} install done")
+    print(f"{bcolors.OKGREEN}{file.file_name} install done {bcolors.ENDC}")
