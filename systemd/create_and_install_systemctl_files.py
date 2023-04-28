@@ -107,7 +107,7 @@ for package in os.listdir(parent_path):
         User=root
         Group=www-data
         WorkingDirectory={django_site_path}
-        ExecStart={parent_path}env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{sock_file_name} {package}.wsgi:application
+        ExecStart={parent_path}/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{file_name}.sock {package}.wsgi:application
 
         [Install]
         WantedBy=multi-user.target
