@@ -119,7 +119,7 @@ for package in os.listdir(parent_path):
     print(f"{bcolors.OKGREEN}{nginx_config_folder_name} has been created as nginx config folder for project {os.path.join(parent_path, package)} {bcolors.ENDC}")
 
     web_nginx_conf_path = f"/etc/nginx/{nginx_config_folder_name}/web.conf"
-    with open(web_nginx_conf_path) as new_nginx_conf:
+    with open(web_nginx_conf_path, 'w') as new_nginx_conf:
         new_nginx_conf.write(
             "location / {\n"
             "include proxy_params;\n"
