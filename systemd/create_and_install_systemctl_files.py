@@ -95,6 +95,8 @@ for package in os.listdir(parent_path):
 
     file_name = f'gunicorn_{package}_{repository_name}'
 
+    sock_file_name = f"{file_name}.sock"
+
     with open(f'{file_name}.service', 'w') as new_service_file:
         new_service_file.write(f"""
         [Unit]
@@ -105,11 +107,33 @@ for package in os.listdir(parent_path):
         User=root
         Group=www-data
         WorkingDirectory={django_site_path}
-        ExecStart={parent_path}env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{file_name}.sock {package}.wsgi:application
+        ExecStart={parent_path}env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{sock_file_name} {package}.wsgi:application
 
         [Install]
         WantedBy=multi-user.target
         """)
+
+    nginx_config_folder_name = f"{package}_{repository_name}"
+    sys_reload_result = subprocess.run(['mkdir', f'/etc/nginx/{nginx_config_folder_name}'], capture_output=True)
+    print(sys_reload_result.stdout.decode() + sys_reload_result.stderr.decode())
+    print(f"{bcolors.OKGREEN}{nginx_config_folder_name} has been created as nginx config folder for project {os.path.join(parent_path, package)} {bcolors.ENDC}")
+
+    web_nginx_conf_path = f"/etc/nginx/{nginx_config_folder_name}/web.conf"
+    with open(web_nginx_conf_path) as new_nginx_conf:
+        new_nginx_conf.write(
+            "location / {\n"
+            "include proxy_params;\n"
+            f"proxy_pass http://unix:/var/log/gunicorn/{sock_file_name};\n"
+            "}\n\n"
+            
+            "location /static {\n"
+                   "root /var/www;\n"
+            "}"
+
+        )
+    print(f"{bcolors.OKGREEN}{web_nginx_conf_path} has been created as nginx config file for project {os.path.join(parent_path, package)} {bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN} PLEASE USE INCLUDE STRING INSIDE NGINX DEFAULT CONFIG AS include /etc/nginx/{nginx_config_folder_name}/*.conf; {bcolors.ENDC}")
+
     print(f"{bcolors.OKGREEN}{file_name}.service has been created! {bcolors.ENDC}")
     print("=" * 50)
     print("=" * 50)
