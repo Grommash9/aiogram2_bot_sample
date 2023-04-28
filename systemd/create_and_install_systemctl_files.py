@@ -99,18 +99,18 @@ for package in os.listdir(parent_path):
 
     with open(f'{file_name}.service', 'w') as new_service_file:
         new_service_file.write(f"""
-        [Unit]
-        Description=gunicorn daemon
-        After=network.target
+[Unit]
+Description=gunicorn daemon
+After=network.target
 
-        [Service]
-        User=root
-        Group=www-data
-        WorkingDirectory={django_site_path}
-        ExecStart={parent_path}/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{file_name}.sock {package}.wsgi:application
+[Service]
+User=root
+Group=www-data
+WorkingDirectory={django_site_path}
+ExecStart={parent_path}/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{file_name}.sock {package}.wsgi:application
 
-        [Install]
-        WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
         """)
 
     nginx_config_folder_name = f"{package}_{repository_name}"
