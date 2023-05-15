@@ -1,0 +1,13 @@
+Видаляємо стандартну папку locales - вона потрібна тільки для прикладу
+
+Запускаємо бота і він напише
+NAME FOR I18N FILE IS aiogram2_bot_sample_lang
+саме цю назву потрібно вставити скрізь внизу щоб створити правильно файли локалізації
+
+
+cd bot_app
+mkdir locales
+pybabel extract --input-dirs=. -o locales/aiogram2_bot_sample_lang.pot
+pybabel init -i locales/aiogram2_bot_sample_lang.pot -d locales -D aiogram2_bot_sample_lang -l en
+pybabel init -i locales/aiogram2_bot_sample_lang.pot -d locales -D aiogram2_bot_sample_lang -l uk
+pybabel compile -d locales -D aiogram2_bot_sample_lang

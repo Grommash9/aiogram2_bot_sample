@@ -9,6 +9,8 @@ import os
 cwd = Path().cwd()
 
 
+
+
 ROUTE_URL = os.getenv('ROUTE_URL')
 POLLING = os.getenv('POLLING')
 ADMINS_ID = json.loads(os.getenv('ADMINS_ID'))
@@ -30,7 +32,13 @@ REDIS = {
     'db': 2,
     'prefix': cwd.name
 }
-# sad
+
+BASE_DIR = Path(__file__).parent
+I18N_DOMAIN = f"{Path(__file__).parent.parent.name}_lang"
+print(f'\033[93mNAME FOR I18N FILE IS {Path(__file__).parent.parent.name}_lang \033[0m')
+LOCALES_DIR = BASE_DIR / 'locales'
+
+
 MYSQL = {
     'host': os.getenv('MYSQL_HOST'),
     'user': os.getenv('MYSQL_USER'),

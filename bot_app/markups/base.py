@@ -1,7 +1,8 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def cancel_menu():
-    m = ReplyKeyboardMarkup(resize_keyboard=True)
-    m.insert(KeyboardButton('Отмена'))
+def language_menu():
+    m = InlineKeyboardMarkup(row_width=2)
+    m.insert(InlineKeyboardButton(text='🇺🇦 Українська', callback_data='set-lang_uk'))
+    m.insert(InlineKeyboardButton(text='🇺🇸 English', callback_data='set-lang_en'))
     return m

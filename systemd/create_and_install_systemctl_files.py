@@ -71,7 +71,8 @@ for package in os.listdir(parent_path):
                                    f"WorkingDirectory={parent_path}\n"
                                    f"ExecStart={os.path.join(parent_path, 'env', 'bin', 'python3')} -m {package}\n"
                                    "RestartSec=10\n"
-                                   "Restart=on-failure\n\n\n"
+                                   "Restart=on-failure\n"
+                                   "StartLimitBurst=5\n\n\n"
 
                                    f"StandardOutput=append:{os.path.join(parent_path, 'log_output.log')}\n"
                                    f"StandardError=append:{os.path.join(parent_path, 'log_error.log')}\n\n\n"
@@ -108,6 +109,9 @@ User=root
 Group=www-data
 WorkingDirectory={django_site_path}
 ExecStart={parent_path}/env/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/log/gunicorn/{file_name}.sock {package}.wsgi:application
+RestartSec=10
+Restart=on-failure
+StartLimitBurst=5
 
 [Install]
 WantedBy=multi-user.target
