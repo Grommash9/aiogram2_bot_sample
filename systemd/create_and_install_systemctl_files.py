@@ -58,7 +58,7 @@ for package in os.listdir(parent_path):
         elif package == 'api_application':
             file_name = f"{repository_name}_api"
         else:
-            file_name = package
+            file_name = f"{repository_name}_{package}"
         with open(f'{file_name}.service', 'w') as new_service_file:
             new_service_file.write("[Unit]\n"
                                    f"Description={file_name} service\n"

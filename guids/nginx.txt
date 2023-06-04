@@ -37,7 +37,7 @@ nano /etc/nginx/application-manager-callback/api.conf
 chat_rank_and_reputation
 
 location / {
-            proxy_pass         http://127.0.0.1:2201;
+            proxy_pass         http://127.0.0.1:3103;
             proxy_redirect     off;
             proxy_set_header   Host $host;
             proxy_set_header   X-Real-IP $remote_addr;
