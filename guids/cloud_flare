@@ -19,8 +19,8 @@ server {
         listen [::]:80;
         root /var/www/;
         index index.html index.htm index.nginx-debian.html;
-        server_name bet-pay-callback.cakealliance.io;
-        include /etc/nginx/bet-pay-callback/*.conf;
+        server_name bestchange-gap-parser-admin.cakealliance.io;
+        include /etc/nginx/admin_panel_bot-bestchange-price-gap-notify/*.conf
 }
 server {
         listen 80;

@@ -9,9 +9,10 @@ from bot_app.misc import dp, bot, routes, scheduler, i18n
 
 
 async def on_startup(_dispatcher):
-    await bot.set_webhook(config.WEBHOOK_URL, allowed_updates=AllowedUpdates.CALLBACK_QUERY + AllowedUpdates.MESSAGE
-                                                                  + AllowedUpdates.MY_CHAT_MEMBER + AllowedUpdates.CHAT_MEMBER +
-                                                                  AllowedUpdates.CHAT_JOIN_REQUEST + AllowedUpdates.CHANNEL_POST)
+    await bot.set_webhook(
+        config.WEBHOOK_URL,
+        allowed_updates=AllowedUpdates.CALLBACK_QUERY + AllowedUpdates.MESSAGE + AllowedUpdates.MY_CHAT_MEMBER
+        + AllowedUpdates.CHAT_MEMBER + AllowedUpdates.CHAT_JOIN_REQUEST + AllowedUpdates.CHANNEL_POST)
 
     webhook_info = await bot.get_webhook_info()
     print(webhook_info)
@@ -44,4 +45,3 @@ if __name__ == '__main__':
         app.add_routes(routes)
         setup_bot(app)
         web.run_app(app, **config.BOT_SERVER)
-

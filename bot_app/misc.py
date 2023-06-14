@@ -1,6 +1,8 @@
+import os.path
 from asyncio import get_event_loop
 from typing import Tuple, Any
 import aioredis
+import os
 from aiogram import Dispatcher, Bot
 from aiogram import types
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
@@ -54,6 +56,17 @@ class MyI18nLocale(I18nMiddleware):
             return language
 
 
-i18n = MyI18nLocale(I18N_DOMAIN, LOCALES_DIR)
-_ = i18n.gettext
-_l = i18n.lazy_gettext
+if 'locales' in os.listdir(os.path.join(os.getcwd(), 'bot_app')):
+    i18n = MyI18nLocale(I18N_DOMAIN, LOCALES_DIR)
+    _ = i18n.gettext
+    _l = i18n.lazy_gettext
+else:
+    print(f'\033[91mYou have no locales folder in bot_app so i18n will not work \033[0m')
+    i18n = MyI18nLocale(I18N_DOMAIN, os.getcwd())
+
+    def _(text, locale=None):
+        return text
+
+
+    def _l(text, locale=None):
+        return text
