@@ -1,4 +1,3 @@
-import os.path
 from asyncio import get_event_loop
 from typing import Tuple, Any
 import aioredis
