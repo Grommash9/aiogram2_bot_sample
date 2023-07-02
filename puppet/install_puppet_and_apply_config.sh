@@ -14,4 +14,4 @@ sudo apt update
 sudo apt install puppet-agent -y
 
 # Применение конфигурационного файла Puppet
-sudo /opt/puppetlabs/bin/puppet apply python310.pp
+sudo /opt/puppetlabs/bin/puppet apply puppet/python310.pp
