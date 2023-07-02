@@ -1,5 +1,5 @@
 $bot_port = 2001
-$bot_domain = 'aiogram-sample.telegram-crm.work'
+$bot_domain = 'aiogram2-sample.telegram-crm.work'
 $projectDirectory = '/home/aiogram2_bot_sample'
 $certbotEmail = 'asda@gmail.com'
 $databaseName = 'test_db'
