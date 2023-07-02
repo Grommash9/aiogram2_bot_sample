@@ -23,7 +23,7 @@ for package in os.listdir(parent_path):
         elif package == f"api_application":
             file_name = f"{repository_name}_api"
         else:
-            file_name = package
+            file_name = f"{repository_name}_{package}"
         restart(file_name)
     if os.path.isdir(os.path.join(parent_path, package)) and os.path.exists(
         os.path.join(parent_path, package, 'manage.py')):
