@@ -110,7 +110,7 @@ file { '/etc/nginx/sites-available':
 # Добавление информации в файл sites-available/default
 file { '/etc/nginx/sites-available/default':
   ensure  => present,
-  content => template("${projectDirectory}/nginx_config.erb"),
+  content => template("${projectDirectory}/puppet/nginx_config.erb"),
   require => Package['nginx'],
   notify  => Service['nginx'],
 }
