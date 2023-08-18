@@ -6,7 +6,7 @@ from aiohttp import web
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from bot_app import config
 from bot_app.misc import dp, bot, routes, scheduler, i18n
-
+import asyncio
 
 async def on_startup(_dispatcher):
     await bot.set_webhook(
@@ -31,12 +31,14 @@ def setup_bot(app: web.Application):
     app.on_startup.append(on_startup)
     app.on_shutdown.append(on_shutdown)
 
+async def run_app():
+    await web._run_app(app, **config.BOT_SERVER)
+
 
 if __name__ == '__main__':
     scheduler.start()
     logging.basicConfig(level=logging.INFO)
     dp.middleware.setup(LoggingMiddleware())
-    dp.middleware.setup(i18n)
 
     if int(config.POLLING):
         executor.start_polling(dp, skip_updates=True)
@@ -44,4 +46,5 @@ if __name__ == '__main__':
         app = get_new_configured_app(dispatcher=dp, path=f'/{config.WEBHOOK_PATH}/')
         app.add_routes(routes)
         setup_bot(app)
-        web.run_app(app, **config.BOT_SERVER)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(run_app())
